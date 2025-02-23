@@ -91,6 +91,16 @@
   }
 }
 
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+
+  .second-actions {
+    display: flex;
+    gap: 10px;
+  }
+}
+
 .window-content {
   width: var(--window-content-width);
   height: 100%;
@@ -172,13 +182,10 @@
 .chat-item {
   padding: 10px 14px;
   background-color: var(--white);
-  border-radius: 10px;
-  margin-bottom: 10px;
-  box-shadow: var(--card-shadow);
   transition: background-color 0.3s ease;
   cursor: pointer;
   user-select: none;
-  border: 2px solid transparent;
+  border-bottom: 1px solid var(--color-border-default);
   position: relative;
   content-visibility: auto;
 }
@@ -188,7 +195,7 @@
 }
 
 .chat-item-selected {
-  border-color: var(--primary);
+  background-color: var(--hover-color);
 }
 
 .chat-item-title {
@@ -234,76 +241,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.narrow-sidebar {
-  .sidebar-title,
-  .sidebar-sub-title {
-    display: none;
-  }
-  .sidebar-logo {
-    position: relative;
-    display: flex;
-    justify-content: center;
-  }
-
-  .sidebar-header-bar {
-    flex-direction: column;
-  }
-
-  .chat-item {
-    padding: 0;
-    min-height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all ease 0.3s;
-    overflow: hidden;
-
-    &:hover {
-      .chat-item-narrow {
-        transform: scale(0.7) translateX(-50%);
-      }
-    }
-  }
-
-  .chat-item-narrow {
-    line-height: 0;
-    font-weight: lighter;
-    color: var(--black);
-    transform: translateX(0);
-    transition: all ease 0.3s;
-    padding: 4px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    .chat-item-avatar {
-      display: flex;
-      justify-content: center;
-      opacity: 0.2;
-      position: absolute;
-      transform: scale(4);
-    }
-
-    .chat-item-narrow-count {
-      font-size: 24px;
-      font-weight: bolder;
-      text-align: center;
-      color: var(--primary);
-      opacity: 0.6;
-    }
-  }
-
-  .sidebar-tail {
-    flex-direction: column-reverse;
-    align-items: center;
-    gap: 15px;
-
-    .sidebar-actions {
-      display: contents;
-    }
-  }
 }
 
 .sidebar-tail {

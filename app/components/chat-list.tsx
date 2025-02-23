@@ -13,7 +13,6 @@ import { useChatStore } from "../store";
 import Locale from "../locales";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Path } from "../constant";
-import { MaskAvatar } from "./mask";
 import { Mask } from "../store/mask";
 import { useRef, useEffect } from "react";
 import { showConfirm } from "./ui-lib";
@@ -29,7 +28,6 @@ export function ChatItem(props: {
   selected: boolean;
   id: string;
   index: number;
-  narrow?: boolean;
   mask: Mask;
 }) {
   const draggableRef = useRef<HTMLDivElement | null>(null);
@@ -62,29 +60,13 @@ export function ChatItem(props: {
             props.count,
           )}`}
         >
-          {props.narrow ? (
-            <div className={styles["chat-item-narrow"]}>
-              <div className={clsx(styles["chat-item-avatar"], "no-dark")}>
-                <MaskAvatar
-                  avatar={props.mask.avatar}
-                  model={props.mask.modelConfig.model}
-                />
-              </div>
-              <div className={styles["chat-item-narrow-count"]}>
-                {props.count}
-              </div>
+          <div className={styles["chat-item-title"]}>{props.title}</div>
+          <div className={styles["chat-item-info"]}>
+            <div className={styles["chat-item-count"]}>
+              {Locale.ChatItem.ChatItemCount(props.count)}
             </div>
-          ) : (
-            <>
-              <div className={styles["chat-item-title"]}>{props.title}</div>
-              <div className={styles["chat-item-info"]}>
-                <div className={styles["chat-item-count"]}>
-                  {Locale.ChatItem.ChatItemCount(props.count)}
-                </div>
-                <div className={styles["chat-item-date"]}>{props.time}</div>
-              </div>
-            </>
-          )}
+            <div className={styles["chat-item-date"]}>{props.time}</div>
+          </div>
 
           <div
             className={styles["chat-item-delete"]}
@@ -102,7 +84,7 @@ export function ChatItem(props: {
   );
 }
 
-export function ChatList(props: { narrow?: boolean }) {
+export function ChatList() {
   const [sessions, selectedIndex, selectSession, moveSession] = useChatStore(
     (state) => [
       state.sessions,
@@ -154,14 +136,10 @@ export function ChatList(props: { narrow?: boolean }) {
                   selectSession(i);
                 }}
                 onDelete={async () => {
-                  if (
-                    (!props.narrow && !isMobileScreen) ||
-                    (await showConfirm(Locale.Home.DeleteChat))
-                  ) {
+                  if (await showConfirm(Locale.Home.DeleteChat)) {
                     chatStore.deleteSession(i);
                   }
                 }}
-                narrow={props.narrow}
                 mask={item.mask}
               />
             ))}

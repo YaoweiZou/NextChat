@@ -181,32 +181,10 @@ function Screen() {
       </Routes>
     );
   }
-  const renderContent = () => {
-    if (isAuth) return <AuthPage />;
-    if (isSd) return <Sd />;
-    if (isSdNew) return <Sd />;
-    return (
-      <>
-        <SideBar
-          className={clsx({
-            [styles["sidebar-show"]]: isHome,
-          })}
-        />
-        <WindowContent>
-          <Routes>
-            <Route path={Path.Home} element={<Chat />} />
-            <Route path={Path.NewChat} element={<NewChat />} />
-            <Route path={Path.Masks} element={<MaskPage />} />
-            <Route path={Path.Plugins} element={<PluginPage />} />
-            <Route path={Path.SearchChat} element={<SearchChat />} />
-            <Route path={Path.Chat} element={<Chat />} />
-            <Route path={Path.Settings} element={<Settings />} />
-            <Route path={Path.McpMarket} element={<McpMarketPage />} />
-          </Routes>
-        </WindowContent>
-      </>
-    );
-  };
+
+  if (isAuth) return <AuthPage />;
+  if (isSd) return <Sd />;
+  if (isSdNew) return <Sd />;
 
   return (
     <div
@@ -215,7 +193,23 @@ function Screen() {
         [styles["rtl-screen"]]: getLang() === "ar",
       })}
     >
-      {renderContent()}
+      <SideBar
+        className={clsx({
+          [styles["sidebar-show"]]: isHome,
+        })}
+      />
+      <WindowContent>
+        <Routes>
+          <Route path={Path.Home} element={<Chat />} />
+          <Route path={Path.NewChat} element={<NewChat />} />
+          <Route path={Path.Masks} element={<MaskPage />} />
+          <Route path={Path.Plugins} element={<PluginPage />} />
+          <Route path={Path.SearchChat} element={<SearchChat />} />
+          <Route path={Path.Chat} element={<Chat />} />
+          <Route path={Path.Settings} element={<Settings />} />
+          <Route path={Path.McpMarket} element={<McpMarketPage />} />
+        </Routes>
+      </WindowContent>
     </div>
   );
 }
