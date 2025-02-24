@@ -2,15 +2,15 @@ import React, { Fragment, useEffect, useMemo, useRef, useState } from "react";
 
 import styles from "./home.module.scss";
 
-import { IconButton } from "./button";
-import SettingsIcon from "../icons/settings.svg";
-import ChatGptIcon from "../icons/chatgpt.svg";
-import PanelLeftClose from "../icons/panel-left-close.svg";
 import AddIcon from "../icons/add.svg";
+import ChatGptIcon from "../icons/chatgpt.svg";
+import DiscoveryIcon from "../icons/discovery.svg";
+import DragIcon from "../icons/drag.svg";
 import MaskIcon from "../icons/mask.svg";
 import McpIcon from "../icons/mcp.svg";
-import DragIcon from "../icons/drag.svg";
-import DiscoveryIcon from "../icons/discovery.svg";
+import PanelLeftClose from "../icons/panel-left-close.svg";
+import SettingsIcon from "../icons/settings.svg";
+import { IconButton } from "./button";
 
 import Locale, { getLang } from "../locales";
 
@@ -23,43 +23,17 @@ import {
   Path,
 } from "../constant";
 
-import { Link, useNavigate } from "react-router-dom";
-import { isIOS, useMobileScreen } from "../utils";
-import dynamic from "next/dynamic";
-import { Selector } from "./ui-lib";
 import clsx from "clsx";
+import dynamic from "next/dynamic";
+import { Link, useNavigate } from "react-router-dom";
 import { isMcpEnabled } from "../mcp/actions";
-
-const DISCOVERY = [
-  { name: Locale.Plugin.Name, path: Path.Plugins },
-  { name: "Stable Diffusion", path: Path.Sd },
-  { name: Locale.SearchChat.Page.Title, path: Path.SearchChat },
-];
+import { isIOS, useMobileScreen } from "../utils";
 
 const ChatList = dynamic(async () => (await import("./chat-list")).ChatList, {
   loading: () => null,
 });
 
-export function useHotKey() {
-  const chatStore = useChatStore();
-
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.altKey || e.ctrlKey) {
-        if (e.key === "ArrowUp") {
-          chatStore.nextSession(-1);
-        } else if (e.key === "ArrowDown") {
-          chatStore.nextSession(1);
-        }
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  });
-}
-
-export function useDragSideBar() {
+function useDragSideBar() {
   const limit = (x: number) => Math.min(MAX_SIDEBAR_WIDTH, x);
 
   const config = useAppConfig();
@@ -111,7 +85,7 @@ export function useDragSideBar() {
   return { onDragStart };
 }
 
-export function SideBarContainer(props: {
+function SideBarContainer(props: {
   children: React.ReactNode;
   className?: string;
 }) {
@@ -141,13 +115,12 @@ export function SideBarContainer(props: {
   );
 }
 
-export function SideBarHeader(props: {
+function SideBarHeader(props: {
   title?: string | React.ReactNode;
   subTitle?: string | React.ReactNode;
   logo?: React.ReactNode;
 }) {
   const { title, subTitle, logo } = props;
-  const [showDiscoverySelector, setshowDiscoverySelector] = useState(false);
   const navigate = useNavigate();
   const config = useAppConfig();
   const [mcpEnabled, setMcpEnabled] = useState(false);
@@ -227,126 +200,35 @@ export function SideBarHeader(props: {
         )}
         <IconButton
           icon={<DiscoveryIcon />}
-          text={Locale.Discovery.Name}
+          text={Locale.SearchChat.Page.Title}
           className={styles["sidebar-bar-button"]}
-          onClick={() => setshowDiscoverySelector(true)}
+          onClick={() =>
+            navigate(Path.SearchChat, { state: { fromHome: true } })
+          }
           shadow
         />
       </div>
-      {showDiscoverySelector && (
-        <Selector
-          items={[
-            ...DISCOVERY.map((item) => {
-              return {
-                title: item.name,
-                value: item.path,
-              };
-            }),
-          ]}
-          onClose={() => setshowDiscoverySelector(false)}
-          onSelection={(s) => {
-            navigate(s[0], { state: { fromHome: true } });
-          }}
-        />
-      )}
     </Fragment>
   );
 }
 
-export function SideBarBody(props: {
-  children: React.ReactNode;
-  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-}) {
-  const { onClick, children } = props;
+function SideBarBody() {
   return (
-    <div className={styles["sidebar-body"]} onClick={onClick}>
-      {children}
+    <div className={styles["sidebar-body"]}>
+      <ChatList />
     </div>
   );
 }
 
-export function SideBarTail(props: {
-  primaryAction?: React.ReactNode;
-  secondaryAction?: React.ReactNode;
-}) {
-  const { primaryAction, secondaryAction } = props;
-
+export default function SideBar(props: { className?: string }) {
   return (
-    <div className={styles["sidebar-tail"]}>
-      <div className={styles["sidebar-actions"]}>{primaryAction}</div>
-      <div className={styles["sidebar-actions"]}>{secondaryAction}</div>
-    </div>
-  );
-}
-
-export function SideBar(props: { className?: string }) {
-  useHotKey();
-
-  // const [showDiscoverySelector, setshowDiscoverySelector] = useState(false);
-  // const navigate = useNavigate();
-  // const config = useAppConfig();
-  // const chatStore = useChatStore();
-  // const [mcpEnabled, setMcpEnabled] = useState(false);
-
-  return (
-    <SideBarContainer {...props}>
+    <SideBarContainer className={props.className}>
       <SideBarHeader
         title="NextChat"
         subTitle="Build your own AI assistant."
         logo={<ChatGptIcon />}
       />
-      <SideBarBody>
-        <ChatList />
-      </SideBarBody>
-      {/* <SideBarTail
-        primaryAction={
-          <>
-            <div className={clsx(styles["sidebar-action"], styles.mobile)}>
-              <IconButton
-                icon={<DeleteIcon />}
-                onClick={async () => {
-                  if (await showConfirm(Locale.Home.DeleteChat)) {
-                    chatStore.deleteSession(chatStore.currentSessionIndex);
-                  }
-                }}
-              />
-            </div>
-            <div className={styles["sidebar-action"]}>
-              <Link to={Path.Settings}>
-                <IconButton
-                  aria={Locale.Settings.Title}
-                  icon={<SettingsIcon />}
-                  shadow
-                />
-              </Link>
-            </div>
-            <div className={styles["sidebar-action"]}>
-              <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
-                <IconButton
-                  aria={Locale.Export.MessageFromChatGPT}
-                  icon={<GithubIcon />}
-                  shadow
-                />
-              </a>
-            </div>
-          </>
-        }
-        secondaryAction={
-          <IconButton
-            icon={<AddIcon />}
-            text={shouldNarrow ? undefined : Locale.Home.NewChat}
-            onClick={() => {
-              if (config.dontShowMaskSplashScreen) {
-                chatStore.newSession();
-                navigate(Path.Chat);
-              } else {
-                navigate(Path.NewChat);
-              }
-            }}
-            shadow
-          />
-        }
-      /> */}
+      <SideBarBody />
     </SideBarContainer>
   );
 }

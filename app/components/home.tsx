@@ -22,7 +22,7 @@ import {
   Routes,
   useLocation,
 } from "react-router-dom";
-import { SideBar } from "./sidebar";
+import SideBar from "./sidebar";
 import { useAppConfig } from "../store/config";
 import { AuthPage } from "./auth";
 import { getClientConfig } from "../config/client";
@@ -60,20 +60,12 @@ const MaskPage = dynamic(async () => (await import("./mask")).MaskPage, {
   loading: () => <Loading noLogo />,
 });
 
-const PluginPage = dynamic(async () => (await import("./plugin")).PluginPage, {
-  loading: () => <Loading noLogo />,
-});
-
 const SearchChat = dynamic(
   async () => (await import("./search-chat")).SearchChatPage,
   {
     loading: () => <Loading noLogo />,
   },
 );
-
-const Sd = dynamic(async () => (await import("./sd")).Sd, {
-  loading: () => <Loading noLogo />,
-});
 
 const McpMarketPage = dynamic(
   async () => (await import("./mcp-market")).McpMarketPage,
@@ -163,8 +155,6 @@ function Screen() {
   const isArtifact = location.pathname.includes(Path.Artifacts);
   const isHome = location.pathname === Path.Home;
   const isAuth = location.pathname === Path.Auth;
-  const isSd = location.pathname === Path.Sd;
-  const isSdNew = location.pathname === Path.SdNew;
 
   const isMobileScreen = useMobileScreen();
   const shouldTightBorder =
@@ -183,8 +173,6 @@ function Screen() {
   }
 
   if (isAuth) return <AuthPage />;
-  if (isSd) return <Sd />;
-  if (isSdNew) return <Sd />;
 
   return (
     <div
@@ -203,7 +191,6 @@ function Screen() {
           <Route path={Path.Home} element={<Chat />} />
           <Route path={Path.NewChat} element={<NewChat />} />
           <Route path={Path.Masks} element={<MaskPage />} />
-          <Route path={Path.Plugins} element={<PluginPage />} />
           <Route path={Path.SearchChat} element={<SearchChat />} />
           <Route path={Path.Chat} element={<Chat />} />
           <Route path={Path.Settings} element={<Settings />} />

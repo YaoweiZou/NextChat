@@ -60,23 +60,25 @@ export function ChatItem(props: {
             props.count,
           )}`}
         >
-          <div className={styles["chat-item-title"]}>{props.title}</div>
-          <div className={styles["chat-item-info"]}>
-            <div className={styles["chat-item-count"]}>
-              {Locale.ChatItem.ChatItemCount(props.count)}
+          <div className={styles["chat-item-inner"]}>
+            <div className={styles["chat-item-title"]}>{props.title}</div>
+            <div className={styles["chat-item-info"]}>
+              <div className={styles["chat-item-count"]}>
+                {Locale.ChatItem.ChatItemCount(props.count)}
+              </div>
+              <div className={styles["chat-item-date"]}>{props.time}</div>
             </div>
-            <div className={styles["chat-item-date"]}>{props.time}</div>
-          </div>
 
-          <div
-            className={styles["chat-item-delete"]}
-            onClickCapture={(e) => {
-              props.onDelete?.();
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-          >
-            <DeleteIcon />
+            <div
+              className={styles["chat-item-delete"]}
+              onClickCapture={(e) => {
+                props.onDelete?.();
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+            >
+              <DeleteIcon />
+            </div>
           </div>
         </div>
       )}
