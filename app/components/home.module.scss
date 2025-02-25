@@ -41,8 +41,8 @@
   top: 0;
   width: var(--sidebar-width);
   box-sizing: border-box;
-  padding: 20px;
-  background-color: var(--second);
+  padding-top: 20px;
+  background-color: var(--sidebar-color);
   display: flex;
   flex-direction: column;
   box-shadow: inset -2px 0px 2px 0px rgb(0, 0, 0, 0.05);
@@ -58,21 +58,10 @@
       flex-grow: 1;
     }
   }
-
-  &:hover,
-  &:active {
-    .sidebar-drag {
-      background-color: rgba($color: #000000, $alpha: 0.01);
-
-      svg {
-        opacity: 0.2;
-      }
-    }
-  }
 }
 
 .sidebar-drag {
-  $width: 14px;
+  $width: 4px;
 
   position: absolute;
   top: 0;
@@ -81,13 +70,11 @@
   width: $width;
   background-color: rgba($color: #000000, $alpha: 0);
   cursor: ew-resize;
-  transition: all ease 0.3s;
-  display: flex;
-  align-items: center;
+  transition: background-color ease-in-out 0.3s;
 
-  svg {
-    opacity: 0;
-    margin-left: -2px;
+  &:hover,
+  &:active {
+    background-color: #197cff;
   }
 }
 
@@ -177,33 +164,35 @@
   flex: 1;
   overflow: auto;
   overflow-x: hidden;
+  padding: 5px 0;
 }
 
 .chat-item {
-  padding: 0 14px;
-  cursor: pointer;
   user-select: none;
-  border-radius: 10px;
   position: relative;
   content-visibility: auto;
 
   .chat-item-inner {
+    width: 87.5%;
+    margin: 0 auto;
+    border-radius: 10px;
     box-sizing: border-box;
-    padding: 10px 0;
+    padding: 0 14px;
+  }
+
+  .chat-item-content {
+    padding: 12px 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   }
 }
 
-.chat-item-selected {
-  background-color: #06c;
+.chat-item-selected > .chat-item-inner {
+  background-color: #0071e3;
   color: white;
-
-  .chat-item-inner {
-    border: none;
-  }
+  border: none;
 
   .chat-item-info {
-    color: #cececd;
+    color: #fdfdfc;
   }
 }
 
@@ -227,12 +216,12 @@
   cursor: pointer;
 }
 
-.chat-item:hover > .chat-item-delete {
+.chat-item:hover .chat-item-delete {
   opacity: 0.5;
   transform: translateX(-4px);
 }
 
-.chat-item:hover > .chat-item-delete:hover {
+.chat-item:hover .chat-item-delete:hover {
   opacity: 1;
 }
 

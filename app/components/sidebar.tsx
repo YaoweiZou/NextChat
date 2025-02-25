@@ -1,11 +1,10 @@
-import React, { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import styles from "./home.module.scss";
 
 import AddIcon from "../icons/add.svg";
 import ChatGptIcon from "../icons/chatgpt.svg";
 import DiscoveryIcon from "../icons/discovery.svg";
-import DragIcon from "../icons/drag.svg";
 import MaskIcon from "../icons/mask.svg";
 import McpIcon from "../icons/mcp.svg";
 import PanelLeftClose from "../icons/panel-left-close.svg";
@@ -108,9 +107,7 @@ function SideBarContainer(props: {
       <div
         className={styles["sidebar-drag"]}
         onPointerDown={(e) => onDragStart(e as any)}
-      >
-        <DragIcon />
-      </div>
+      />
     </div>
   );
 }
@@ -137,7 +134,7 @@ function SideBarHeader(props: {
   }, []);
 
   return (
-    <Fragment>
+    <div style={{ padding: "0 20px" }}>
       <div className={styles["header-actions"]}>
         <div className={styles["primary-actions"]}>
           <IconButton icon={<PanelLeftClose />} shadow />
@@ -208,7 +205,7 @@ function SideBarHeader(props: {
           shadow
         />
       </div>
-    </Fragment>
+    </div>
   );
 }
 

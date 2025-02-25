@@ -13,6 +13,7 @@
   --hover-color: #f3f3f3;
   --bar-color: rgba(0, 0, 0, 0.1);
   --theme-color: var(--gray);
+  --sidebar-color: #fafafc;
 
   /* shadow */
   --shadow: 50px 50px 100px 10px rgb(0, 0, 0, 0.1);
@@ -32,6 +33,7 @@
   --primary: rgb(29, 147, 171);
   --second: rgb(27 38 42);
   --hover-color: #323232;
+  --sidebar-color: #0e0e0f;
 
   --bar-color: rgba(255, 255, 255, 0.1);
 
@@ -272,7 +274,7 @@ div.math {
 
 pre {
   position: relative;
-  
+
   &:hover .copy-code-button {
     pointer-events: all;
     transform: translateX(0px);
@@ -326,9 +328,9 @@ pre {
       text-align: center;
       color: white;
       background: #464e4e;
-    } 
+    }
   }
-  
+
   .expanded {
     background-image: none;
   }

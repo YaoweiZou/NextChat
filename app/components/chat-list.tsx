@@ -16,8 +16,8 @@ import { Path } from "../constant";
 import { Mask } from "../store/mask";
 import { useRef, useEffect } from "react";
 import { showConfirm } from "./ui-lib";
-import { useMobileScreen } from "../utils";
 import clsx from "clsx";
+import { getDateStr } from "../utils/date";
 
 export function ChatItem(props: {
   onClick?: () => void;
@@ -61,23 +61,25 @@ export function ChatItem(props: {
           )}`}
         >
           <div className={styles["chat-item-inner"]}>
-            <div className={styles["chat-item-title"]}>{props.title}</div>
-            <div className={styles["chat-item-info"]}>
-              <div className={styles["chat-item-count"]}>
-                {Locale.ChatItem.ChatItemCount(props.count)}
+            <div className={styles["chat-item-content"]}>
+              <div className={styles["chat-item-title"]}>{props.title}</div>
+              <div className={styles["chat-item-info"]}>
+                <div className={styles["chat-item-count"]}>
+                  {Locale.ChatItem.ChatItemCount(props.count)}
+                </div>
+                <div className={styles["chat-item-date"]}>{props.time}</div>
               </div>
-              <div className={styles["chat-item-date"]}>{props.time}</div>
-            </div>
 
-            <div
-              className={styles["chat-item-delete"]}
-              onClickCapture={(e) => {
-                props.onDelete?.();
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-            >
-              <DeleteIcon />
+              <div
+                className={styles["chat-item-delete"]}
+                onClickCapture={(e) => {
+                  props.onDelete?.();
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+              >
+                <DeleteIcon />
+              </div>
             </div>
           </div>
         </div>
@@ -97,7 +99,6 @@ export function ChatList() {
   );
   const chatStore = useChatStore();
   const navigate = useNavigate();
-  const isMobileScreen = useMobileScreen();
 
   const onDragEnd: OnDragEndResponder = (result) => {
     const { destination, source } = result;
@@ -127,7 +128,7 @@ export function ChatList() {
             {sessions.map((item, i) => (
               <ChatItem
                 title={item.topic}
-                time={new Date(item.lastUpdate).toLocaleString()}
+                time={getDateStr(new Date(item.lastUpdate))}
                 count={item.messages.length}
                 key={item.id}
                 id={item.id}
