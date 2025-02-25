@@ -38,20 +38,47 @@
 }
 
 .sidebar {
-  top: 0;
-  width: var(--sidebar-width);
   box-sizing: border-box;
-  padding-top: 20px;
-  background-color: var(--sidebar-color);
+  position: relative;
+  top: 0;
   display: flex;
   flex-direction: column;
-  box-shadow: inset -2px 0px 2px 0px rgb(0, 0, 0, 0.05);
-  position: relative;
+  width: var(--sidebar-width);
+  background-color: var(--sidebar-color);
+  border-right: var(--border-in-light);
   transition: width ease 0.05s;
+}
+
+.sidebar-header {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+
+  .header-actions {
+    display: flex;
+    justify-content: space-between;
+
+    .second-actions {
+      display: flex;
+      gap: 10px;
+    }
+  }
+
+  .sidebar-title {
+    font-size: 20px;
+    font-weight: bold;
+    animation: slide-in ease 0.3s;
+  }
+
+  .sidebar-sub-title {
+    font-size: 12px;
+    font-weight: 400;
+    animation: slide-in ease 0.3s;
+  }
 
   .sidebar-header-bar {
     display: flex;
-    margin-bottom: 20px;
     gap: 10px;
 
     .sidebar-bar-button {
@@ -60,32 +87,11 @@
   }
 }
 
-.sidebar-drag {
-  $width: 4px;
-
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: $width;
-  background-color: rgba($color: #000000, $alpha: 0);
-  cursor: ew-resize;
-  transition: background-color ease-in-out 0.3s;
-
-  &:hover,
-  &:active {
-    background-color: #197cff;
-  }
-}
-
-.header-actions {
-  display: flex;
-  justify-content: space-between;
-
-  .second-actions {
-    display: flex;
-    gap: 10px;
-  }
+.sidebar-body {
+  flex: 1;
+  overflow: auto;
+  overflow-x: hidden;
+  padding-bottom: 5px;
 }
 
 .window-content {
@@ -125,46 +131,6 @@
   .mobile {
     display: block;
   }
-}
-
-.sidebar-header {
-  position: relative;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  &-narrow {
-    justify-content: center;
-  }
-}
-
-.sidebar-logo {
-  display: inline-flex;
-}
-
-.sidebar-title-container {
-  display: inline-flex;
-  flex-direction: column;
-}
-
-.sidebar-title {
-  font-size: 20px;
-  font-weight: bold;
-  animation: slide-in ease 0.3s;
-}
-
-.sidebar-sub-title {
-  font-size: 12px;
-  font-weight: 400;
-  animation: slide-in ease 0.3s;
-}
-
-.sidebar-body {
-  flex: 1;
-  overflow: auto;
-  overflow-x: hidden;
-  padding: 5px 0;
 }
 
 .chat-item {
@@ -241,11 +207,6 @@
   white-space: nowrap;
 }
 
-.sidebar-actions {
-  display: inline-flex;
-  gap: 15px;
-}
-
 .loading-content {
   display: flex;
   flex-direction: column;
@@ -257,9 +218,4 @@
 
 .rtl-screen {
   direction: rtl;
-
-  .sidebar-drag {
-    right: unset;
-    left: 0;
-  }
 }
