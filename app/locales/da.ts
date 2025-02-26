@@ -563,39 +563,6 @@ const da: PartialLocaleType = {
       },
       Engine: "TTS-motor",
     },
-    Realtime: {
-      Enable: {
-        Title: "Live-chat",
-        SubTitle: "Slå live-svar til",
-      },
-      Provider: {
-        Title: "Modeludbyder",
-        SubTitle: "Vælg forskellig udbyder",
-      },
-      Model: {
-        Title: "Model",
-        SubTitle: "Vælg en model",
-      },
-      ApiKey: {
-        Title: "API-nøgle",
-        SubTitle: "Din nøgle",
-        Placeholder: "API-nøgle",
-      },
-      Azure: {
-        Endpoint: {
-          Title: "Adresse",
-          SubTitle: "Endpoint til Azure",
-        },
-        Deployment: {
-          Title: "Udrulningsnavn",
-          SubTitle: "Navn for dit Azure-setup",
-        },
-      },
-      Temperature: {
-        Title: "Temperatur",
-        SubTitle: "Højere tal = mere varierede svar",
-      },
-    },
   },
   Store: {
     DefaultTopic: "Ny samtale",

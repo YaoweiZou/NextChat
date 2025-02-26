@@ -20,6 +20,7 @@ import clsx from "clsx";
 import dynamic from "next/dynamic";
 import { Link, useNavigate } from "react-router-dom";
 import { isMcpEnabled } from "../mcp/actions";
+import { Popover } from "./ui-lib";
 
 const ChatList = dynamic(async () => (await import("./chat-list")).ChatList, {
   loading: () => null,
@@ -32,6 +33,7 @@ function SideBarHeader(props: {
   const { title, subTitle } = props;
   const navigate = useNavigate();
   const config = useAppConfig();
+  const [showPropover, setShowPropover] = useState(false);
   const [mcpEnabled, setMcpEnabled] = useState(false);
   const chatStore = useChatStore();
 
@@ -52,6 +54,18 @@ function SideBarHeader(props: {
           <IconButton icon={<PanelLeftClose />} shadow />
         </div>
         <div className={styles["second-actions"]}>
+          <Popover
+            onClose={() => setShowPropover(false)}
+            content={<div>hello</div>}
+            open={showPropover}
+          >
+            <IconButton
+              icon={<SettingsIcon />}
+              onClick={() => setShowPropover(true)}
+              shadow
+            />
+          </Popover>
+
           <Link to={Path.Settings}>
             <IconButton
               aria={Locale.Settings.Title}
